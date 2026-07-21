@@ -1,8 +1,10 @@
 import CommandShell from "@/components/command/CommandShell";
 import LuxuryCard from "@/components/luxury/LuxuryCard";
+
 import RevenueOverview from "@/components/dashboard/RevenueOverview";
 import LiveOperations from "@/components/dashboard/LiveOperations";
 import VIPGuests from "@/components/dashboard/VIPGuests";
+import Reservations from "@/components/dashboard/Reservations";
 
 import { getAnalytics } from "@/lib/api";
 
@@ -51,7 +53,6 @@ subtitle="Live revenue intelligence"
 />
 
 
-
 <LuxuryCard
 
 title="Transactions"
@@ -63,7 +64,6 @@ subtitle="Completed payments"
 />
 
 
-
 <LuxuryCard
 
 title="Signature Product"
@@ -73,7 +73,6 @@ value={product}
 subtitle="Top performing item"
 
 />
-
 
 
 <LuxuryCard
@@ -100,7 +99,6 @@ gap-6
 ">
 
 
-
 <div className="
 rounded-3xl
 bg-neutral-900
@@ -117,9 +115,7 @@ Revenue Intelligence
 text-neutral-500
 mt-3
 ">
-
 Live financial performance monitoring.
-
 </p>
 
 </div>
@@ -142,9 +138,7 @@ VIP Experience
 text-neutral-500
 mt-3
 ">
-
 Premium guest relationship intelligence.
-
 </p>
 
 </div>
@@ -167,9 +161,7 @@ Operational Flow
 text-neutral-500
 mt-3
 ">
-
 Real time venue operations.
-
 </p>
 
 </div>
@@ -181,11 +173,11 @@ Real time venue operations.
 
 <RevenueOverview />
 
-
 <LiveOperations />
 
-
 <VIPGuests />
+
+<Reservations />
 
 
 </CommandShell>
