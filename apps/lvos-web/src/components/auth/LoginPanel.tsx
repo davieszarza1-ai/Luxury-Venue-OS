@@ -1,29 +1,124 @@
 "use client";
 
 
-import { useState } from "react";
+import {
+useState
+} from "react";
+
+
+import {
+useRouter
+} from "next/navigation";
+
 
 
 export default function LoginPanel(){
 
 
-const [email,setEmail]=useState("");
-const [password,setPassword]=useState("");
+const router =
+useRouter();
 
 
 
-function login(){
-
-console.log({
+const [
 email,
+setEmail
+]=useState("");
+
+
+
+const [
+password,
+setPassword
+]=useState("");
+
+
+
+const [
+error,
+setError
+]=useState("");
+
+
+
+const [
+loading,
+setLoading
+]=useState(false);
+
+
+
+
+async function login(){
+
+
+setLoading(true);
+
+setError("");
+
+
+
+const response =
+await fetch(
+"/api/auth/login",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email,
+
 password
-});
+
+})
+
+}
+);
+
+
+
+const data =
+await response.json();
+
+
+
+if(!data.success){
+
+setError(
+data.message
+);
+
+setLoading(false);
+
+return;
+
+}
+
+
+
+router.push("/");
+
 
 }
 
 
 
 return (
+
+<div className="
+min-h-screen
+bg-black
+text-white
+flex
+items-center
+justify-center
+">
+
 
 <div className="
 w-full
@@ -37,19 +132,24 @@ p-10
 
 
 <h1 className="
-text-3xl
+text-4xl
 font-bold
 tracking-widest
 ">
+
 LVOS
+
 </h1>
+
 
 
 <p className="
 text-neutral-500
 mt-2
 ">
+
 Luxury Venue OS
+
 </p>
 
 
@@ -62,12 +162,6 @@ space-y-5
 
 <input
 
-value={email}
-
-onChange={(e)=>setEmail(e.target.value)}
-
-placeholder="Email"
-
 className="
 w-full
 rounded-xl
@@ -77,8 +171,15 @@ border-neutral-800
 px-5
 py-4
 outline-none
-focus:border-white
 "
+
+placeholder="Email"
+
+value={email}
+
+onChange={
+e=>setEmail(e.target.value)
+}
 
 />
 
@@ -86,14 +187,6 @@ focus:border-white
 
 <input
 
-type="password"
-
-value={password}
-
-onChange={(e)=>setPassword(e.target.value)}
-
-placeholder="Password"
-
 className="
 w-full
 rounded-xl
@@ -103,10 +196,35 @@ border-neutral-800
 px-5
 py-4
 outline-none
-focus:border-white
 "
 
+placeholder="Password"
+
+type="password"
+
+value={password}
+
+onChange={
+e=>setPassword(e.target.value)
+}
+
 />
+
+
+
+{
+error &&
+
+<p className="
+text-red-400
+text-sm
+">
+
+{error}
+
+</p>
+
+}
 
 
 
@@ -114,20 +232,28 @@ focus:border-white
 
 onClick={login}
 
+disabled={loading}
+
 className="
 w-full
 rounded-xl
 bg-white
 text-black
-py-4
 font-semibold
+py-4
 hover:bg-neutral-200
 transition
 "
 
 >
 
-ACCESS COMMAND CENTER
+{
+loading
+?
+"ACCESSING..."
+:
+"ACCESS COMMAND CENTER"
+}
 
 </button>
 
@@ -138,10 +264,11 @@ ACCESS COMMAND CENTER
 
 
 <div className="
-mt-8
-border-t
+mt-10
+border
 border-neutral-800
-pt-5
+rounded-2xl
+p-5
 ">
 
 
@@ -149,15 +276,17 @@ pt-5
 text-xs
 text-neutral-500
 ">
+
 SYSTEM STATUS
+
 </p>
 
 
 <div className="
+mt-3
 flex
 items-center
 gap-2
-mt-3
 ">
 
 
@@ -170,14 +299,18 @@ bg-green-400
 </span>
 
 
-<span className="
-text-sm
-">
+<span>
+
 Operational
+
 </span>
 
 
 </div>
+
+
+</div>
+
 
 
 </div>

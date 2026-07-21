@@ -1,3 +1,5 @@
+import UserRoles from "@/components/auth/UserRoles";
+
 import CommandShell from "@/components/command/CommandShell";
 
 import LuxuryCard from "@/components/luxury/LuxuryCard";
@@ -40,6 +42,8 @@ data.guests?.[0]?.guest
 
 
 return (
+
+<UserRoles />
 
 <CommandShell>
 
