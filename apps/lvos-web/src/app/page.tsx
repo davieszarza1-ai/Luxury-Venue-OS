@@ -5,6 +5,7 @@ import RevenueOverview from "@/components/dashboard/RevenueOverview";
 import LiveOperations from "@/components/dashboard/LiveOperations";
 import VIPGuests from "@/components/dashboard/VIPGuests";
 import Reservations from "@/components/dashboard/Reservations";
+import FloorManagement from "@/components/dashboard/FloorManagement";
 
 import { getAnalytics } from "@/lib/api";
 
@@ -173,11 +174,17 @@ Real time venue operations.
 
 <RevenueOverview />
 
+
 <LiveOperations />
+
 
 <VIPGuests />
 
+
 <Reservations />
+
+
+<FloorManagement />
 
 
 </CommandShell>
