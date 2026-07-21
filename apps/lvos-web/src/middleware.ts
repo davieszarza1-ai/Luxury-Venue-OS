@@ -1,52 +1,42 @@
-import {
-NextResponse
-} from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 
-import type {
-NextRequest
-} from "next/server";
+export function middleware(request: NextRequest){
 
 
-
-export function middleware(
-request:NextRequest
-){
-
-
-const token =
-request.cookies.get(
-"lvos_token"
-);
+const session =
+request.cookies.get("lvos_session");
 
 
 
-const path =
-request.nextUrl.pathname;
+const { pathname } =
+request.nextUrl;
 
 
 
 if(
-path.startsWith("/login")
+pathname.startsWith("/login")
 ){
 
-return NextResponse.next();
-
-}
-
-
-
-if(
-!token
-){
+if(session){
 
 return NextResponse.redirect(
+new URL("/",request.url)
+);
 
-new URL(
-"/login",
-request.url
-)
+}
 
+return NextResponse.next();
+
+}
+
+
+
+if(!session){
+
+return NextResponse.redirect(
+new URL("/login",request.url)
 );
 
 }
@@ -60,12 +50,13 @@ return NextResponse.next();
 
 
 
-export const config={
+export const config = {
 
 matcher:[
 
 "/",
-"/dashboard/:path*"
+
+"/login"
 
 ]
 

@@ -1,101 +1,69 @@
-import {
-  NextResponse
-} from "next/server";
+import { NextResponse } from "next/server";
 
 
-import {
-  createSession
-} from "@/lib/auth/auth";
+export async function POST(request: Request){
 
 
-
-export async function POST(
-  request: Request
-) {
+const body = await request.json();
 
 
-  const body =
-    await request.json();
+const {
+email,
+password
+} = body;
 
 
 
-  const {
-    email,
-    password
-  } = body;
+if(
+email === "admin@lvos.com" &&
+password === "lvos12345"
+){
+
+
+const response = NextResponse.json({
+
+success:true,
+
+user:{
+email,
+role:"ADMIN"
+}
+
+});
 
 
 
-  if (
-    email !== "owner@lvos.com" ||
-    password !== "lvos123"
-  ) {
-
-
-    return NextResponse.json(
-
-      {
-        success:false,
-        message:"Invalid credentials"
-      },
-
-      {
-        status:401
-      }
-
-    );
-
-  }
+response.cookies.set(
+"lvos_session",
+"authenticated",
+{
+httpOnly:true,
+path:"/",
+sameSite:"lax"
+}
+);
 
 
 
-  const session =
-    createSession({
+return response;
 
-      id:"1",
 
-      name:"LVOS Owner",
-
-      email,
-
-      role:"OWNER"
-
-    });
+}
 
 
 
-  const response =
-    NextResponse.json({
+return NextResponse.json(
 
-      success:true
+{
+success:false,
+message:"Invalid credentials"
+},
 
-    });
+{
+status:401
+}
 
-
-
-  response.cookies.set(
-
-    "lvos_token",
-
-    session.token,
-
-    {
-
-      httpOnly:true,
-
-      secure:false,
-
-      sameSite:"lax",
-
-      maxAge:60*60*24
-
-    }
-
-  );
-
-
-
-  return response;
+);
 
 
 }
