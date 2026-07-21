@@ -1,8 +1,14 @@
-﻿import CommandShell from "@/components/command/CommandShell";
+﻿import LiveOperations from "@/components/dashboard/LiveOperations";
+
+import CommandShell from "@/components/command/CommandShell";
 
 import LuxuryCard from "@/components/luxury/LuxuryCard";
 
 import RevenueOverview from "@/components/dashboard/RevenueOverview";
+
+<section className="mt-10">
+  <LiveOperations />
+</section>
 
 import { getAnalytics } from "@/lib/api";
 
