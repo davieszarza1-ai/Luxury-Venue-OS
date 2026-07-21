@@ -1,4 +1,5 @@
 import CommandShell from "@/components/command/CommandShell";
+
 import LuxuryCard from "@/components/luxury/LuxuryCard";
 
 import RevenueOverview from "@/components/dashboard/RevenueOverview";
@@ -7,11 +8,17 @@ import VIPGuests from "@/components/dashboard/VIPGuests";
 import Reservations from "@/components/dashboard/Reservations";
 import FloorManagement from "@/components/dashboard/FloorManagement";
 import InventoryManagement from "@/components/dashboard/InventoryManagement";
+import PaymentsManagement from "@/components/dashboard/PaymentsManagement";
+import AnalyticsManagement from "@/components/dashboard/AnalyticsManagement";
+import ExecutiveDashboard from "@/components/dashboard/ExecutiveDashboard";
+
+import LoginPanel from "@/components/auth/LoginPanel";
 
 import { getAnalytics } from "@/lib/api";
 
 
 export default async function Home(){
+
 
 const data = await getAnalytics();
 
@@ -31,17 +38,25 @@ data.guests?.[0]?.guest
 "No data";
 
 
+
 return (
 
 <CommandShell>
 
 
-<section className="
+<LoginPanel />
+
+
+
+<section
+className="
 grid
 grid-cols-1
 md:grid-cols-4
 gap-6
-">
+mt-10
+"
+>
 
 
 <LuxuryCard
@@ -55,6 +70,7 @@ subtitle="Live revenue intelligence"
 />
 
 
+
 <LuxuryCard
 
 title="Transactions"
@@ -64,6 +80,7 @@ value={`${overview.transactions}`}
 subtitle="Completed payments"
 
 />
+
 
 
 <LuxuryCard
@@ -77,6 +94,7 @@ subtitle="Top performing item"
 />
 
 
+
 <LuxuryCard
 
 title="VIP Guest"
@@ -88,102 +106,46 @@ subtitle="Highest value guest"
 />
 
 
+
 </section>
 
 
 
 <section className="
 mt-10
-grid
-grid-cols-1
-md:grid-cols-3
-gap-6
+space-y-10
 ">
 
 
-<div className="
-rounded-3xl
-bg-neutral-900
-border
-border-neutral-800
-p-8
-">
-
-<h3 className="text-xl">
-Revenue Intelligence
-</h3>
-
-<p className="
-text-neutral-500
-mt-3
-">
-Live financial performance monitoring.
-</p>
-
-</div>
-
-
-
-<div className="
-rounded-3xl
-bg-neutral-900
-border
-border-neutral-800
-p-8
-">
-
-<h3 className="text-xl">
-VIP Experience
-</h3>
-
-<p className="
-text-neutral-500
-mt-3
-">
-Premium guest relationship intelligence.
-</p>
-
-</div>
-
-
-
-<div className="
-rounded-3xl
-bg-neutral-900
-border
-border-neutral-800
-p-8
-">
-
-<h3 className="text-xl">
-Operational Flow
-</h3>
-
-<p className="
-text-neutral-500
-mt-3
-">
-Real time venue operations.
-</p>
-
-</div>
-
-
-</section>
-
+<ExecutiveDashboard />
 
 
 <RevenueOverview />
 
+
 <LiveOperations />
+
 
 <VIPGuests />
 
+
 <Reservations />
+
 
 <FloorManagement />
 
+
 <InventoryManagement />
+
+
+<PaymentsManagement />
+
+
+<AnalyticsManagement />
+
+
+</section>
+
 
 
 </CommandShell>
