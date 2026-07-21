@@ -1,114 +1,34 @@
-﻿import LiveOperations from "@/components/dashboard/LiveOperations";
+export default function VIPGuests(){
 
-import CommandShell from "@/components/command/CommandShell";
-
-import LuxuryCard from "@/components/luxury/LuxuryCard";
-
-import RevenueOverview from "@/components/dashboard/RevenueOverview";
-
-<section className="mt-10">
-  <LiveOperations />
-</section>
-
-import { getAnalytics } from "@/lib/api";
-
-
-export default async function Home(){
-
-
-const data = await getAnalytics();
-
-
-const overview = data.overview;
-
-
-const product =
-data.products?.[0]?.product
-||
-"No data";
-
-
-const guest =
-data.guests?.[0]?.guest
-||
-"No data";
-
+const guests = [
+{
+name:"Lorenzo Luxury VIP",
+level:"PLATINUM",
+visits:12,
+status:"Active",
+lastVisit:"21 Jul 2026"
+},
+{
+name:"Alexander Royal",
+level:"GOLD",
+visits:8,
+status:"Active",
+lastVisit:"18 Jul 2026"
+},
+{
+name:"Sophia Elite",
+level:"VIP",
+visits:5,
+status:"Returning",
+lastVisit:"15 Jul 2026"
+}
+]
 
 
 return (
 
-<CommandShell>
-
-
-<section className="
-grid
-grid-cols-1
-md:grid-cols-4
-gap-6
-">
-
-
-<LuxuryCard
-
-title="Revenue Today"
-
-value={`€${overview.revenue}`}
-
-subtitle="Live revenue intelligence"
-
-/>
-
-
-
-<LuxuryCard
-
-title="Transactions"
-
-value={`${overview.transactions}`}
-
-subtitle="Completed payments"
-
-/>
-
-
-
-<LuxuryCard
-
-title="Signature Product"
-
-value={product}
-
-subtitle="Top performing item"
-
-/>
-
-
-
-<LuxuryCard
-
-title="VIP Guest"
-
-value={guest}
-
-subtitle="Highest value guest"
-
-/>
-
-
-</section>
-
-
-
 <section className="
 mt-10
-grid
-grid-cols-1
-md:grid-cols-3
-gap-6
-">
-
-
-<div className="
 rounded-3xl
 bg-neutral-900
 border
@@ -116,79 +36,101 @@ border-neutral-800
 p-8
 ">
 
-<h3 className="text-xl">
-Revenue Intelligence
+
+<h3 className="
+text-xl
+font-semibold
+">
+VIP Guest Intelligence
 </h3>
+
 
 <p className="
 text-neutral-500
-mt-3
+mt-2
+">
+Premium guest relationship monitoring
+</p>
+
+
+<div className="
+mt-8
+space-y-4
 ">
 
-Live financial performance monitoring.
 
+{
+guests.map((guest)=>(
+
+<div
+key={guest.name}
+className="
+rounded-2xl
+border
+border-neutral-800
+p-5
+flex
+justify-between
+items-center
+"
+>
+
+
+<div>
+
+<h4 className="
+font-semibold
+">
+{guest.name}
+</h4>
+
+
+<p className="
+text-sm
+text-neutral-500
+">
+Last visit: {guest.lastVisit}
 </p>
+
 
 </div>
 
 
-
 <div className="
-rounded-3xl
-bg-neutral-900
-border
-border-neutral-800
-p-8
+text-right
 ">
 
-<h3 className="text-xl">
-VIP Experience
-</h3>
 
 <p className="
-text-neutral-500
-mt-3
+text-sm
+text-yellow-400
 ">
-
-Premium guest relationship intelligence.
-
+{guest.level}
 </p>
+
+
+<p className="
+text-xs
+text-neutral-500
+">
+{guest.visits} visits
+</p>
+
 
 </div>
 
 
+</div>
 
-<div className="
-rounded-3xl
-bg-neutral-900
-border
-border-neutral-800
-p-8
-">
+))
 
-<h3 className="text-xl">
-Operational Flow
-</h3>
+}
 
-<p className="
-text-neutral-500
-mt-3
-">
-
-Real time venue operations.
-
-</p>
 
 </div>
 
 
 </section>
-
-<section className="mt-10">
-  <RevenueOverview />
-</section>
-
-</CommandShell>
 
 )
 
