@@ -2,6 +2,8 @@
 
 import LuxuryCard from "@/components/luxury/LuxuryCard";
 
+import RevenueOverview from "@/components/dashboard/RevenueOverview";
+
 import { getAnalytics } from "@/lib/api";
 
 
@@ -176,7 +178,9 @@ Real time venue operations.
 
 </section>
 
-
+<section className="mt-10">
+  <RevenueOverview />
+</section>
 
 </CommandShell>
 
