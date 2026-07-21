@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: lvos-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: lvos
+      POSTGRES_PASSWORD: lvos_password
+      POSTGRES_DB: lvos
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+
+    container_name: lvos-redis
+
+    restart: unless-stopped
+
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

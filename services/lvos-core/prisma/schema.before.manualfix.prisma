@@ -1,0 +1,301 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organization {
+  id String @id @default(uuid())
+
+  name String
+
+  venues Venue[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Role {
+  id String @id @default(uuid())
+
+  name String @unique
+
+  users User[]
+
+  permissions RolePermission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Permission {
+  id String @id @default(uuid())
+
+  name String @unique
+
+  roles RolePermission[]
+}
+
+model RolePermission {
+  id String @id @default(uuid())
+
+  roleId String
+
+  permissionId String
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  permission Permission @relation(fields: [permissionId], references: [id])
+}
+
+model User {
+  id String @id @default(uuid())
+
+  name String?
+
+  email String @unique
+
+  password String @default("")
+
+  passwordHash String?
+
+  roleId String?
+
+  role Role? @relation(fields: [roleId], references: [id])
+
+  venueId String?
+
+  venue Venue? @relation(fields: [venueId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Venue {
+  id String @id @default(uuid())
+
+  name String
+
+  organizationId String?
+
+  organization Organization? @relation(fields: [organizationId], references: [id])
+
+  spaces Space[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
+
+  users User[]
+}
+
+model Space {
+  id String @id @default(uuid())
+
+  name String
+
+  venueId String
+
+  venue Venue @relation(fields: [venueId], references: [id])
+
+  tables Table[]
+}
+
+model Table {
+  id String @id @default(uuid())
+
+  name String
+
+  seats Int
+
+  status String @default("AVAILABLE")
+
+  spaceId String
+
+  space Space @relation(fields: [spaceId], references: [id])
+
+  orders Order[]
+
+  reservations Reservation[]
+
+  orders Order[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Product {
+  id String @id @default(uuid())
+
+  name String
+
+  price Float
+
+  category String?
+
+  stock Float @default(0)
+
+  items OrderItem[]
+
+  inventory Inventory?
+
+  inventoryMovements InventoryMovement[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Inventory {
+  id String @id @default(uuid())
+
+  productId String @unique
+
+  quantity Float @default(0)
+
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Order {
+  id String @id @default(uuid())
+
+  tableId String
+
+  guestId String?
+
+  status String @default("OPEN")
+
+  customerName String?
+
+  total Float @default(0)
+
+  table Table @relation(fields: [tableId], references: [id])
+
+  guest Guest? @relation(fields: [guestId], references: [id])
+
+  items OrderItem[]
+
+  payments Payment[]
+
+  events OrderEvent[]
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model OrderItem {
+  id String @id @default(uuid())
+
+  orderId String
+
+  productId String
+
+  quantity Int
+
+  price Float
+
+  notes String?
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  product Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model Payment {
+  id String @id @default(uuid())
+
+  orderId String
+
+  amount Float
+
+  method String
+
+  status String @default("PENDING")
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @default(now()) @updatedAt
+}
+
+model OrderEvent {
+  id String @id @default(uuid())
+
+  orderId String
+
+  type String
+
+  message String?
+
+  order Order @relation(fields: [orderId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model InventoryMovement {
+  id String @id @default(uuid())
+
+  productId String
+
+  quantity Float
+
+  type String
+
+  product Product @relation(fields: [productId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Reservation {
+  guestId String?
+
+  guest Guest? @relation(fields: [guestId], references: [id])
+  id    String @id @default(uuid())
+
+  customerName String
+
+  phone String
+
+  date DateTime
+
+  guests Int
+
+  status String @default("PENDING")
+
+  tableId String
+
+  table Table @relation(fields: [tableId], references: [id])
+
+  guest Guest? @relation(fields: [guestId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Guest {
+  id String @id @default(uuid())
+
+  name String
+
+  email String?
+
+  phone String?
+
+  createdAt DateTime @default(now())
+
+  updatedAt    DateTime      @default(now()) @updatedAt
+  reservations Reservation[]
+
+  orders Order[]
+}
+
+
