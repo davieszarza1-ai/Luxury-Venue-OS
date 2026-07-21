@@ -17,6 +17,8 @@ import SecurityMonitoring from "@/components/security/SecurityMonitoring";
 
 import AccessLogs from "@/components/security/AccessLogs";
 
+import PermissionsMatrix from "@/components/security/PermissionsMatrix";
+
 import { getAnalytics } from "@/lib/api";
 
 
@@ -143,6 +145,8 @@ subtitle="Highest value guest"
 <SecurityMonitoring />
 
 <AccessLogs />
+
+<PermissionsMatrix />
 
 </CommandShell>
 
